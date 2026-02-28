@@ -1,17 +1,31 @@
 const router = require("express").Router();
 
 router.post("/", async (req, res) => {
-  const { content } = req.body;
+  try {
+    const { content } = req.body;
 
-  // TEMP AI MOCK (we replace with Bedrock next)
-  const explanation = `
+    if (!content) {
+      return res.status(400).json({
+        error: "No content provided",
+      });
+    }
+
+    // Temporary AI logic (we replace with Bedrock later)
+    const explanation = `
   Simple Explanation:
-  ${content.substring(0, 200)}
 
-  This section explains the core idea in beginner-friendly terms.
-  `;
+This content discusses:
+"${content.substring(0, 150)}..."
 
-  res.json({ explanation });
+It will be converted into beginner-friendly explanations
+using LearnFlow AI.
+`;
+
+    res.json({ explanation });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 module.exports = router;
