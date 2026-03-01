@@ -1,30 +1,18 @@
 const router = require("express").Router();
+const { generateExplanation } = require("../services/bedrockService");
 
 router.post("/", async (req, res) => {
   try {
     const { content } = req.body;
 
-    if (!content) {
-      return res.status(400).json({
-        error: "No content provided",
-      });
-    }
-
-    // Temporary AI logic (we replace with Bedrock later)
-    const explanation = `
-  Simple Explanation:
-
-This content discusses:
-"${content.substring(0, 150)}..."
-
-It will be converted into beginner-friendly explanations
-using LearnFlow AI.
-`;
+    const explanation = await generateExplanation(content);
 
     res.json({ explanation });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Bedrock request failed",
+    });
   }
 });
 
