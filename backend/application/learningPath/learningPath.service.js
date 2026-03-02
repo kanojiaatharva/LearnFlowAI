@@ -2,10 +2,11 @@ function createLearningPath(goal) {
   return {
     goal,
     steps: [
-      "Understand basics",
-      "Practice examples",
-      "Build mini project",
-      "Advanced concepts"
+      "Basics",
+      "Core Concepts",
+      "Practice",
+      "Mini Project",
+      "Advanced Topics"
     ]
   };
 }

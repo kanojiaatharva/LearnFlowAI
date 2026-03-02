@@ -3,13 +3,11 @@ const { fallbackLLM } = require("../../ai/fallback.client");
 
 const useBedrock = process.env.USE_BEDROCK === "true";
 
-async function generateExplanation(content, skill = "beginner") {
+async function generateExplanation(content, skill="beginner") {
+
   const prompt = `
-Explain the following for a ${skill} developer.
-Provide:
-- simplified explanation
-- step-by-step breakdown
-- example
+Explain for a ${skill} developer.
+Provide summary + steps.
 
 ${content}
 `;

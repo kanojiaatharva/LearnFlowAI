@@ -1,14 +1,14 @@
 async function fallbackLLM(content) {
   return `
-[Prototype Mode Explanation]
+[Prototype AI Mode]
 
-Concept Summary:
+Explanation:
 ${content.slice(0,200)}
 
 Steps:
-1. Identify main idea
-2. Break into smaller concepts
-3. Apply with examples
+1. Identify core idea
+2. Break into components
+3. Apply practically
 `;
 }
 

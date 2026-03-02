@@ -1,10 +1,10 @@
 const {
   BedrockRuntimeClient,
-  InvokeModelCommand,
+  InvokeModelCommand
 } = require("@aws-sdk/client-bedrock-runtime");
 
 const client = new BedrockRuntimeClient({
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION
 });
 
 async function callLLM(prompt) {
@@ -14,15 +14,17 @@ async function callLLM(prompt) {
     accept: "application/json",
     body: JSON.stringify({
       anthropic_version: "bedrock-2023-05-31",
-      max_tokens: 400,
-      messages: [{ role: "user", content: prompt }],
-    }),
+      max_tokens: 300,
+      messages: [{ role: "user", content: prompt }]
+    })
   });
 
   const res = await client.send(command);
-  const body = JSON.parse(new TextDecoder().decode(res.body));
+  const data = JSON.parse(
+    new TextDecoder().decode(res.body)
+  );
 
-  return body.content[0].text;
+  return data.content[0].text;
 }
 
 module.exports = { callLLM };
