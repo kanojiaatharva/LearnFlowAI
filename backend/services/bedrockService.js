@@ -1,48 +1,42 @@
-require("dotenv").config();
-
 const {
   BedrockRuntimeClient,
-  InvokeModelCommand,
+  ConverseCommand
 } = require("@aws-sdk/client-bedrock-runtime");
 
 const client = new BedrockRuntimeClient({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
+  region: process.env.AWS_REGION || "us-east-1"
 });
 
-async function generateExplanation(content) {
-  const prompt = `
-Explain this technical concept simply for a beginner:
+async function generateExplanation(prompt) {
+  try {
 
-${content}
-`;
+    const command = new ConverseCommand({
+      modelId: "global.amazon.nova-2-lite-v1:0",
 
-  const command = new InvokeModelCommand({
-    modelId: "anthropic.claude-3-haiku-20240307-v1:0", // cheaper model 💰
-    contentType: "application/json",
-    accept: "application/json",
-    body: JSON.stringify({
-      anthropic_version: "bedrock-2023-05-31",
-      max_tokens: 300, // keeps cost LOW
       messages: [
         {
           role: "user",
-          content: prompt,
-        },
+          content: [{ text: prompt }]
+        }
       ],
-    }),
-  });
 
-  const response = await client.send(command);
+      inferenceConfig: {
+        maxTokens: 500,
+        temperature: 0.7,
+        topP: 0.9
+      }
+    });
 
-  const responseBody = JSON.parse(
-    new TextDecoder().decode(response.body)
-  );
+    const response = await client.send(command);
 
-  return responseBody.content[0].text;
+    return response.output.message.content[0].text;
+
+  } catch (error) {
+
+    console.error("Bedrock error:", error);
+    throw error;
+
+  }
 }
 
 module.exports = { generateExplanation };

@@ -34,32 +34,65 @@
   }
 }
 
+/* ─── Keyframe animations ─── */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% center;
+  }
+
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(6px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0px);
+  }
+}
+
 @layer components {
+
+  /* ── Cards ── */
   .glass-card {
     @apply bg-gray-900/70 backdrop-blur-sm border border-gray-800/60 rounded-2xl;
   }
 
+  /* ── Buttons ── */
   .btn-primary {
-    @apply bg-violet-600 hover:bg-violet-500 text-white font-semibold px-5 py-2.5 rounded-xl 
-           transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
-           disabled:active:scale-100 shadow-lg shadow-violet-900/30 flex items-center gap-2;
+    @apply bg-violet-600 hover:bg-violet-500 text-white font-semibold px-5 py-2.5 rounded-xl transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 shadow-lg shadow-violet-900/30 flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400;
   }
 
   .btn-secondary {
-    @apply bg-gray-800 hover:bg-gray-700 text-gray-200 font-medium px-4 py-2 rounded-xl
-           transition-all duration-200 border border-gray-700 active:scale-95 
-           disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-gray-800 hover:bg-gray-700 text-gray-200 font-medium px-4 py-2 rounded-xl transition-all duration-200 border border-gray-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500;
   }
 
+  /* ── Inputs ── */
   .input-field {
-    @apply bg-gray-800/60 border border-gray-700/60 rounded-xl px-4 py-3 text-gray-100 
-           placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500/50
-           focus:border-violet-500/50 transition-all duration-200 w-full resize-none;
+    @apply bg-gray-800/60 border border-gray-700/60 rounded-xl px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50 transition-all duration-200 w-full resize-none;
   }
 
+  /* ── Navigation ── */
   .nav-item {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
-           transition-all duration-200 cursor-pointer;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer;
   }
 
   .nav-item-active {
@@ -74,7 +107,17 @@
     @apply text-gray-600 cursor-not-allowed opacity-60;
   }
 
+  /* ── Badges ── */
   .badge {
     @apply text-xs px-2 py-0.5 rounded-full font-medium;
+  }
+
+  /* ── Animations ── */
+  .animate-fade-slide-in {
+    animation: fadeSlideIn 0.35s ease both;
+  }
+
+  .animate-pop-in {
+    animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 }

@@ -1,12 +1,36 @@
-const router = require("express").Router();
-const { answerQuestion } =
-require("../../application/qaHandler/qa.service");
+const express = require("express");
+const router = express.Router();
 
-router.post("/", async(req,res)=>{
-  const answer =
-    await answerQuestion(req.body.question, "");
+const { answerQuestion } = require("../../services/aiService");
 
-  res.json({ answer });
+router.post("/", async (req, res) => {
+
+  try {
+
+    const { question } = req.body;
+
+    if (!question) {
+      return res.status(400).json({
+        error: "Question is required"
+      });
+    }
+
+    const answer = await answerQuestion(question);
+
+    res.json({
+      answer
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "AI answer failed"
+    });
+
+  }
+
 });
 
 module.exports = router;

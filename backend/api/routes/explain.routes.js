@@ -1,25 +1,36 @@
-const router = require("express").Router();
-const upload = require("../../middleware/upload.middleware");
+const express = require("express");
+const router = express.Router();
 
-const { analyzePDF } =
-require("../../application/contentAnalyzer/contentAnalyzer.service");
+const { explainContent } = require("../../services/aiService");
 
-const { generateExplanation } =
-require("../../application/explanationGenerator/explanation.service");
+router.post("/", async (req, res) => {
 
-router.post("/", async (req,res)=>{
-  const result =
-    await generateExplanation(req.body.content);
+  try {
 
-  res.json({ explanation: result });
-});
+    const { content } = req.body;
 
-router.post("/upload", upload.single("file"), async(req,res)=>{
-  const analysis = await analyzePDF(req.file.path);
-  const explanation =
-    await generateExplanation(analysis.text);
+    if (!content) {
+      return res.status(400).json({
+        error: "Content is required"
+      });
+    }
 
-  res.json({ explanation });
+    const explanation = await explainContent(content);
+
+    res.json({
+      explanation
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      error: "AI explanation failed"
+    });
+
+  }
+
 });
 
 module.exports = router;
