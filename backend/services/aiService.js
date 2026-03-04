@@ -1,10 +1,8 @@
-const { generateExplanation } = require("./bedrockService");
+const { chatWithNova } = require("./bedrockService");
 
 async function explainContent(content) {
 
   const prompt = `
-You are an AI learning assistant.
-
 Explain the following technical content clearly.
 
 Provide:
@@ -16,19 +14,11 @@ Content:
 ${content}
 `;
 
-  return await generateExplanation(prompt);
+  return await chatWithNova(prompt);
 }
 
 async function answerQuestion(question) {
-
-  const prompt = `
-Answer the following technical question clearly and concisely.
-
-Question:
-${question}
-`;
-
-  return await generateExplanation(prompt);
+  return await chatWithNova(question);
 }
 
 module.exports = {

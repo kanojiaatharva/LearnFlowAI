@@ -7,29 +7,44 @@ const client = new BedrockRuntimeClient({
   region: process.env.AWS_REGION || "us-east-1"
 });
 
-async function generateExplanation(prompt) {
+// store conversation history
+let conversation = [];
+
+async function chatWithNova(userMessage) {
+
   try {
 
+    // add user message
+    conversation.push({
+      role: "user",
+      content: [{ text: userMessage }]
+    });
+
     const command = new ConverseCommand({
+
       modelId: "global.amazon.nova-2-lite-v1:0",
 
-      messages: [
-        {
-          role: "user",
-          content: [{ text: prompt }]
-        }
-      ],
+      messages: conversation,
 
       inferenceConfig: {
         maxTokens: 500,
         temperature: 0.7,
         topP: 0.9
       }
+
     });
 
     const response = await client.send(command);
 
-    return response.output.message.content[0].text;
+    const aiReply = response.output.message.content[0].text;
+
+    // add assistant reply
+    conversation.push({
+      role: "assistant",
+      content: [{ text: aiReply }]
+    });
+
+    return aiReply;
 
   } catch (error) {
 
@@ -39,4 +54,4 @@ async function generateExplanation(prompt) {
   }
 }
 
-module.exports = { generateExplanation };
+module.exports = { chatWithNova };
