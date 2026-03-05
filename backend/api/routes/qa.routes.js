@@ -7,15 +7,15 @@ router.post("/", async (req, res) => {
 
   try {
 
-    const { question } = req.body;
+    const { sessionId, question } = req.body;
 
-    if (!question) {
+    if (!sessionId || !question) {
       return res.status(400).json({
-        error: "Question is required"
+        error: "sessionId and question required"
       });
     }
 
-    const answer = await answerQuestion(question);
+    const answer = await answerQuestion(sessionId, question);
 
     res.json({
       answer

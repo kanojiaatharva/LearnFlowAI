@@ -14,11 +14,13 @@ Content:
 ${content}
 `;
 
-  return await chatWithNova(prompt);
+  return await chatWithNova("explain-session", prompt);
 }
 
-async function answerQuestion(question) {
-  return await chatWithNova(question);
+async function answerQuestion(sessionId, question) {
+
+  return await chatWithNova(sessionId, question);
+
 }
 
 module.exports = {
