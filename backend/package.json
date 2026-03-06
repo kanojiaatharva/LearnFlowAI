@@ -11,9 +11,14 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1001.0",
+    "@aws-sdk/client-dynamodb": "^3.1002.0",
+    "@aws-sdk/lib-dynamodb": "^3.1002.0",
     "cors": "^2.8.6",
+    "cosine-similarity": "^1.0.1",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "multer": "^2.1.0"
+    "multer": "^2.1.0",
+    "pdf-parse": "^1.1.4"
   }
 }

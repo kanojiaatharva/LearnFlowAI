@@ -1,15 +1,23 @@
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 
-const explainRoute = require("./routes/explain");
+const explainRoutes = require("./api/routes/explain.routes");
+const qaRoutes = require("./api/routes/qa.routes");
+const uploadRoutes = require("./api/routes/upload.routes");
 
-const app = express();
+const app = express();   // ✅ MUST come before app.use()
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/explain", explainRoute);
+app.use("/api/explain", explainRoutes);
+app.use("/api/qa", qaRoutes);
+app.use("/api/upload", uploadRoutes); // ✅ now safe
 
-app.listen(5000, () =>
-  console.log("Server running on port 5000")
-);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
