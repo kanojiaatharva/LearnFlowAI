@@ -1,5 +1,8 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import axios from "axios";
+import * as pdfjsLib from "pdfjs-dist";
+import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const API = axios.create({ baseURL: "http://localhost:5000/api", timeout: 60000 });
 const SKILLS = ["Beginner", "Intermediate", "Advanced"];
@@ -143,12 +146,8 @@ function CopyBtn({ text }) {
 
 /* ─── PDF extraction using pdf.js ────────────────────────────── */
 async function extractPdfText(file) {
-    const { getDocument, GlobalWorkerOptions } = await import("pdfjs-dist");
-    // Use CDN worker for the installed version (avoids Vite worker config complexity)
-    GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.2.133/pdf.worker.min.mjs`;
-
     const arrayBuffer = await file.arrayBuffer();
-    const pdf = await getDocument({ data: arrayBuffer }).promise;
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     let fullText = "";
     for (let p = 1; p <= pdf.numPages; p++) {
         const page = await pdf.getPage(p);
