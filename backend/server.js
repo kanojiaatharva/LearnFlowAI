@@ -16,8 +16,8 @@ app.use("/api/explain", explainRoutes);
 app.use("/api/qa", qaRoutes);
 app.use("/api/upload", uploadRoutes); // ✅ now safe
 
-const PORT = process.env.PORT || PORT;
+const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(5000, "0.0.0.0", () => {
   console.log("Server running on port 5000");
 });
