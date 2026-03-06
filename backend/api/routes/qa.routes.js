@@ -1,35 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
-const { answerQuestion } = require("../../services/aiService");
+const { streamChatWithNova } = require("../../services/bedrockService");
 
 router.post("/", async (req, res) => {
 
-  try {
+  const { sessionId, question } = req.body;
 
-    const { sessionId, question } = req.body;
-
-    if (!sessionId || !question) {
-      return res.status(400).json({
-        error: "sessionId and question required"
-      });
-    }
-
-    const answer = await answerQuestion(sessionId, question);
-
-    res.json({
-      answer
+  if (!sessionId || !question) {
+    return res.status(400).json({
+      error: "sessionId and question required"
     });
-
-  } catch (error) {
-
-    console.error(error);
-
-    res.status(500).json({
-      error: "AI answer failed"
-    });
-
   }
+
+  res.setHeader("Content-Type", "text/plain");
+  res.setHeader("Transfer-Encoding", "chunked");
+
+  await streamChatWithNova(sessionId, question, res);
 
 });
 

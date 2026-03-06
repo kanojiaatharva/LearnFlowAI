@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { explainContent } = require("../../services/aiService");
+const { chatWithNova } = require("../../services/bedrockService");
 
 router.post("/", async (req, res) => {
 
@@ -9,7 +9,13 @@ router.post("/", async (req, res) => {
 
     const { content } = req.body;
 
-    const explanation = await explainContent(content);
+    if (!content) {
+      return res.status(400).json({
+        error: "Content is required"
+      });
+    }
+
+    const explanation = await chatWithNova("explain-session", content);
 
     res.json({
       explanation
@@ -17,7 +23,7 @@ router.post("/", async (req, res) => {
 
   } catch (error) {
 
-    console.error(error);
+    console.error("Explain error:", error);
 
     res.status(500).json({
       error: "AI explanation failed"
