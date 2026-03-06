@@ -2,8 +2,6 @@
 
 A modern AI-powered learning dashboard built with **React 19 + Vite 7 + Tailwind CSS 4**.
 
-![UI Preview](docs/preview.png)
-
 ---
 
 ## Features
