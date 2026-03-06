@@ -1,16 +1,135 @@
-# React + Vite
+# LearnFlow AI — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern AI-powered learning dashboard built with **React 19 + Vite 7 + Tailwind CSS 4**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+| Page | API Endpoint | Description |
+|------|-------------|-------------|
+| **Explain Content** | `POST /api/explain` | Paste any text or code and get an AI explanation tailored to your skill level |
+| **Q&A Assistant** | `POST /api/qa` | Session-aware chat interface with typing indicators and auto-scroll |
+| **Upload Knowledge** | `POST /api/upload` | Upload PDFs to the RAG knowledge base with drag-and-drop and progress tracking |
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React 19** — UI components
+- **Vite 7** — Build tool & dev server
+- **Tailwind CSS 4** — Utility-first styling
+- **Axios** — HTTP client (60s timeout, no manual Content-Type on file uploads)
+
+---
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── App.jsx               # Root component + state-based routing
+│   └── providers.jsx
+├── layout/
+│   ├── Navbar.jsx            # Top bar with logo + AI Ready badge
+│   └── Sidebar.jsx           # Navigation sidebar
+├── features/
+│   ├── explain/
+│   │   └── ExplainPage.jsx   # POST /api/explain
+│   ├── chat/
+│   │   └── ChatPage.jsx      # POST /api/qa
+│   └── upload/
+│       └── UploadPage.jsx    # POST /api/upload
+├── styles/
+│   └── globals.css           # Design tokens + component classes
+└── main.jsx                  # Entry point
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- Backend running at `http://localhost:5000`
+
+### Install & Run
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+App runs at **http://localhost:5173**
+
+### Build for Production
+
+```bash
+npm run build       # outputs to dist/
+npm run preview     # preview the production build
+```
+
+---
+
+## API Contract
+
+The frontend expects the backend at `http://localhost:5000/api` with these endpoints:
+
+### `POST /api/explain`
+```json
+// Request
+{ "content": "string" }
+
+// Response
+{ "explanation": "string" }
+```
+
+### `POST /api/qa`
+```json
+// Request
+{ "sessionId": "string", "question": "string" }
+
+// Response
+{ "answer": "string" }
+```
+
+> `sessionId` is auto-generated and persisted in `localStorage` per browser session.
+
+### `POST /api/upload`
+```
+// Request — multipart/form-data
+file: <PDF file>
+
+// Response
+{ "message": "Document processed successfully" }
+```
+
+> ⚠️ **Do not set `Content-Type` manually** — the browser sets the correct `multipart/form-data` boundary automatically.
+
+---
+
+## Design System
+
+- **Theme:** Dark gradient, glassmorphism cards, purple/blue neon accents
+- **Typography:** Inter (Google Fonts)
+- **Component classes** (defined in `globals.css`): `.card`, `.card-glow`, `.btn`, `.btn-primary`, `.btn-secondary`, `.input`, `.dropzone`, `.skeleton`, `.toast-*`, `.spinner`
+- **Animations:** `fade-in`, `pop-in`, shimmer skeleton loader, typing bounce dots
+
+---
+
+## Environment
+
+To point to a different backend URL, update the `baseURL` in each page file:
+
+```js
+// src/features/explain/ExplainPage.jsx  (and chat/upload)
+const API = axios.create({ baseURL: "http://localhost:5000/api", timeout: 60000 });
+```
+
+> For a production setup, move this to a `.env` file:
+> ```
+> VITE_API_URL=https://your-backend.com/api
+> ```
+> Then use `import.meta.env.VITE_API_URL` as the `baseURL`.
