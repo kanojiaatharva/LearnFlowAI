@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000/api", timeout: 60000 });
+const API = axios.create({ baseURL: "http://44.210.21.77:5000/api", timeout: 60000 });
 
 function addRipple(e) {
     const btn = e.currentTarget;
@@ -207,11 +207,29 @@ export default function UploadPage() {
 
             {/* Empty knowledge base card */}
             {docs.length === 0 && !file && (
-                <div className="card" style={{ padding: "18px 22px" }}>
-                    <p className="section-label" style={{ marginBottom: 8 }}>Knowledge Base</p>
-                    <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.7, margin: 0 }}>
-                        Upload PDF documents to expand the AI's knowledge. Documents are processed through the RAG pipeline and become available for Q&amp;A sessions instantly.
-                    </p>
+                <div className="card" style={{ padding: "20px 22px" }}>
+                    <p className="section-label" style={{ marginBottom: 14 }}>How it works</p>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                        {[
+                            { step: "1", title: "Upload PDF", desc: "Drag & drop or browse for your document", icon: "📄" },
+                            { step: "2", title: "AI processes it", desc: "Text is extracted and indexed into vector storage", icon: "⚡" },
+                            { step: "3", title: "Ask questions", desc: "Use Q&A Assistant to query your uploaded knowledge", icon: "💬" },
+                        ].map(s => (
+                            <div key={s.step} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "10px 12px", background: "rgba(2,6,23,0.4)", borderRadius: 10, border: "1px solid rgba(51,65,85,0.4)" }}>
+                                <div style={{ width: 32, height: 32, borderRadius: 9, background: "rgba(124,58,237,0.12)", border: "1px solid rgba(139,92,246,0.2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14 }}>
+                                    {s.icon}
+                                </div>
+                                <div>
+                                    <p style={{ color: "#e2e8f0", fontWeight: 700, fontSize: 12.5, margin: "0 0 2px" }}>{s.title}</p>
+                                    <p style={{ color: "#475569", fontSize: 11.5, margin: 0, lineHeight: 1.5 }}>{s.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <div style={{ marginTop: 14, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        <span style={{ fontSize: 11, color: "#334155", background: "rgba(15,23,42,0.7)", border: "1px solid rgba(51,65,85,0.4)", borderRadius: 9999, padding: "3px 10px" }}>Supports: .pdf</span>
+                        <span style={{ fontSize: 11, color: "#334155", background: "rgba(15,23,42,0.7)", border: "1px solid rgba(51,65,85,0.4)", borderRadius: 9999, padding: "3px 10px" }}>Text-based PDFs only</span>
+                    </div>
                 </div>
             )}
         </div>

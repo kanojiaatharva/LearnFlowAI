@@ -4,7 +4,7 @@ import * as pdfjsLib from "pdfjs-dist";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
-const API = axios.create({ baseURL: "http://localhost:5000/api", timeout: 60000 });
+const API = axios.create({ baseURL: "http://44.210.21.77:5000/api", timeout: 60000 });
 const SKILLS = ["Beginner", "Intermediate", "Advanced"];
 const MAX_CHARS = 12000;
 
@@ -365,7 +365,7 @@ export default function ExplainPage() {
                         <textarea
                             ref={textareaRef}
                             className="input"
-                            rows={9}
+                            rows={7}
                             value={content}
                             onChange={e => setContent(e.target.value)}
                             onKeyDown={e => { if (e.ctrlKey && e.key === "Enter") handleGenerate(e); }}

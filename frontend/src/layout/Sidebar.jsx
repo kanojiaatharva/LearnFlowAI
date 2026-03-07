@@ -68,6 +68,9 @@ export default function Sidebar({ activePage, onNavigate }) {
                         <span className="badge" style={{ background: "rgba(5,150,105,0.12)", border: "1px solid rgba(16,185,129,0.25)", color: "#6ee7b7" }}>● Live</span>
                     </div>
                 </div>
+                <p style={{ fontSize: 10, color: "#334155", textAlign: "center", margin: "10px 0 0", lineHeight: 1.5 }}>
+                    &copy; {new Date().getFullYear()} Made by <span style={{ color: "#a78bfa", fontWeight: 600 }}>Atharva Kanojia</span>
+                </p>
             </div>
         </aside>
     );

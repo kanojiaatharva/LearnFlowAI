@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000/api", timeout: 60000 });
+const API = axios.create({ baseURL: "http://44.210.21.77:5000/api", timeout: 60000 });
 
 function getSessionId() {
     const key = "lf_session_id";
@@ -227,7 +227,7 @@ export default function ChatPage() {
             <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "24px" }}>
                 {messages.length === 0 && !loading ? (
                     /* Empty state */
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: 24, textAlign: "center" }}>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100%", gap: 20, textAlign: "center", padding: "24px 0" }}>
                         <div style={{ width: 60, height: 60, borderRadius: 18, background: "linear-gradient(135deg, rgba(124,58,237,0.2), rgba(99,102,241,0.1))", border: "1px solid rgba(139,92,246,0.25)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 40px rgba(124,58,237,0.1)" }}>
                             <svg viewBox="0 0 24 24" fill="none" width="26" height="26"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke="#a78bfa" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /></svg>
                         </div>
@@ -235,16 +235,16 @@ export default function ChatPage() {
                             <p style={{ color: "#e2e8f0", fontWeight: 800, fontSize: 17, margin: "0 0 7px", letterSpacing: "-0.02em" }}>Ask anything technical</p>
                             <p style={{ color: "#475569", fontSize: 13, maxWidth: 320, lineHeight: 1.65, margin: 0 }}>Get instant AI answers on code, algorithms, system design, or any concept</p>
                         </div>
-                        <div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%", maxWidth: 400 }}>
-                            <p className="section-label" style={{ marginBottom: 4 }}>Try asking</p>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, width: "100%", maxWidth: 520 }}>
+                            <p className="section-label" style={{ marginBottom: 0, gridColumn: "1 / -1" }}>Try asking</p>
                             {EXAMPLES.map(({ q, icon }) => (
                                 <button key={q} onClick={() => send(q)} className="btn btn-secondary" style={{
-                                    textAlign: "left", padding: "11px 15px", fontSize: 13,
-                                    width: "100%", justifyContent: "flex-start", gap: 10,
-                                    borderRadius: 12,
+                                    textAlign: "left", padding: "10px 13px", fontSize: 12.5,
+                                    width: "100%", justifyContent: "flex-start", gap: 8,
+                                    borderRadius: 11,
                                 }}>
-                                    <span style={{ fontSize: 16 }}>{icon}</span>
-                                    <span>{q}</span>
+                                    <span style={{ fontSize: 14, flexShrink: 0 }}>{icon}</span>
+                                    <span style={{ lineHeight: 1.4 }}>{q}</span>
                                 </button>
                             ))}
                         </div>
